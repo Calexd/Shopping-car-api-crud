@@ -5,8 +5,7 @@ class ProductController{
         this.database = new Database().database
         this.createProduct = this.createProduct.bind(this)
         this.deletarProduct = this.deletarProduct.bind(this)
-
-
+        this.showProductDetail = this.showProductDetail.bind(this)
     }
 
     async createProduct(request, response) {
@@ -53,6 +52,34 @@ class ProductController{
         response
         .status(500)
         .json({ mensagem: "Não foi possivel ler os dados de Productos", error });
+
+        }
+    }
+
+    
+    async showProductDetail(request, response) {
+        try {
+            const id = request.params.id
+            const productDetail = await this.database.query(`SELECT p.id, p.amount, p.color, p.voltage, p.description, c.name AS category_name
+            FROM products p
+            INNER JOIN categories c ON p.category_id = c.id
+            WHERE p.id = $1`, [id])
+            
+            if (productDetail.rows.length === 0) {
+                return response.status(404).json({message: 'Produto não encontrado'})
+            }
+
+            response.status(200).json(productDetail.rows[0])
+
+
+        } catch (error) {
+            {
+            console.log("Error ao procurar os dados do Producto", error);
+            response
+            .status(500)
+            .json({ mensagem: "Não foi possivel acessar os dados de Productos", error });
+    
+            }
 
         }
     }
