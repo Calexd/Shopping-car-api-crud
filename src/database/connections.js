@@ -1,18 +1,7 @@
-const { Pool } = require('pg');
+const {Sequelize} = require('sequelize')
+const databaseConfig = require('../config/databse.config')
 
-class Database {
-    constructor() {
-        this.database = new Pool({
-            host: "localhost",
-            port: 5432,
-            user: "postgres",
-            password: "postgre",
-            database: "M2S06"         
-        })
-    }
-    query(text, params) {
-        return this.pool.query(text, params)
-    }
-}
+const connection = new Sequelize(databaseConfig)
 
-module.exports = Database;
+module.exports = connection
+
