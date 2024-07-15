@@ -2,6 +2,7 @@ const { Router } = require('express')
 
 const clientsRoutes = require('./clients.routes')
 const usuariosRoutes = require('./users.routes')
+const validateToken = require('../middlewares/validateToken')
 
 
 const LoginController = require('../controllers/LoginController')
@@ -14,7 +15,6 @@ const routes = new Router()
 
 
 routes.use('/clients', clientsRoutes)
-// routes.use('/products', productRoutes)
 // routes.use('/orders', ordersRoutes)
 
 
@@ -28,5 +28,9 @@ routes.use('/users', usuariosRoutes)
 routes.post('/login', LoginController.login)
 
 
+//product routes
+
+routes.use(validateToken)
+routes.use('/products', productRoutes)
 
 module.exports = routes

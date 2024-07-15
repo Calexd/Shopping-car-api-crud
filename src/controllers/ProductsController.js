@@ -8,21 +8,16 @@ class ProductController{
         this.showProductDetail = this.showProductDetail.bind(this)
     }
 
+
+
     async createProduct(request, response) {
         try {
             const data = request.body
-            console.log(data)
-            
-
             if (data.voltage !== '110' && data.voltage !== '220'){
                 return response.status(400).json({message:"Voltage somente admite: '110' ou '220'"})
             }
-
-            await this.database.query(
-                `INSERT INTO products(name, amount, color, voltage, description, category_id) values($1, $2, $3, $4, $5, $6)`,[data.name, data.amount, data.color, data.voltage, data.description, data.category_id]
-            )
-
-            response.status(201).json({ message: "Successfully registered"})
+            const product = await Product.create(data)
+            response.status(201).json(product)
             
         } catch (error) {
             console.log(error, error.detail)
@@ -31,6 +26,7 @@ class ProductController{
             })            
         }
     }
+
 
     async showProducts(request, response){
         try {
@@ -110,4 +106,4 @@ class ProductController{
 
 
 
-module.exports = ProductController
+module.exports = new ProductController()
