@@ -21,7 +21,7 @@ const Client = conection.define('clients', {
         allowNull: true   
     }
 }, {
-    paranoid: true
+    paranoid: true // (deletedAt require if parainoid is true)
 })
 
 module.exports = Client
