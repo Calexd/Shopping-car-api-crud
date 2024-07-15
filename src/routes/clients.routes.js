@@ -3,12 +3,12 @@ const ClientsController = require('../controllers/ClientController')
 
 const clientsRoutes = new Router()
 
+const clientController = new ClientsController()
 
-const clientsController = new ClientsController()
 
-clientsRoutes.post('/', clientsController.createClient.bind(clientsController))
-clientsRoutes.get('/', clientsController.listClients.bind(clientsController))
-clientsRoutes.delete('/delete-client/:id', clientsController.deleteClients.bind(clientsController))
-clientsRoutes.put('/update-client/:id', clientsController.updateClient.bind(clientsController))
+clientsRoutes.post('/', clientController.createClient)
+// clientsRoutes.get('/', ClientsController.listClients)
+clientsRoutes.delete('/delete-client/:id', clientController.deleteClients)
+// clientsRoutes.put('/update-client/:id', ClientsController.updateClient)
 
-module.exports = clientsRoutes
+module.exports = clientsRoutes 
